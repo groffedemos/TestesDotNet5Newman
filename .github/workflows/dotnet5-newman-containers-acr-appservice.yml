@@ -32,4 +32,4 @@ jobs:
     - name: Testes da API REST com Newman
       run: |
         cd ${{ env.CAMINHO_TESTES }}
-        newman run .\ConversaoTemperaturas.postman_collection.json -d .\testes.json
+        newman run ConversaoTemperaturas.postman_collection.json -d testes.json
