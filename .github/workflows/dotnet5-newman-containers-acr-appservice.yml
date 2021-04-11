@@ -7,12 +7,13 @@ on:
     branches: [ main ]
 
 env:
+  NOME_WEBAPP: groffe-apitemperatura
   IMAGEM_AZURECR: ${{ secrets.AZURECR_REGISTRY }}/apitemperatura-newman
   CAMINHO_PROJETO_WEBAPP: ./APITemperatura
   CAMINHO_TESTES: ./Tests
 
 jobs:
-  build-tests:
+  build-tests-push:
 
     runs-on: ubuntu-latest
 
@@ -45,3 +46,20 @@ jobs:
       run: |
         docker tag ${{ env.IMAGEM_AZURECR }}:latest ${{ env.IMAGEM_AZURECR }}:$GITHUB_RUN_NUMBER
         docker push --all-tags ${{ env.IMAGEM_AZURECR }}
+
+  deployment-aks:
+    needs: [build-tests-push]
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Azure Login - Conectando com Credenciais no Azure
+      uses: Azure/login@v1.1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure WebApp - Deployment da Aplicacao
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.NOME_WEBAPP }}
+        images: '${{ env.IMAGEM_AZURECR }}:${{ github.run_number }}'
