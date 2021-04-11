@@ -26,7 +26,7 @@ namespace APITemperatura.Controllers
                 $"Recebida temperatura para conversão: {temperatura}");
 
             // Comentário para simulação de falha
-            /*if (temperatura < -459.67)
+            if (temperatura < -459.67)
             {
                 var mensagemErro =
                     $"Valor de temperatura em Fahrenheit invalido: {temperatura}";
@@ -36,7 +36,7 @@ namespace APITemperatura.Controllers
                     {
                         Mensagem = mensagemErro
                     });
-            }*/
+            }
 
             var resultado = new Temperatura(temperatura);
             _logger.LogInformation(
