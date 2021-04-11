@@ -23,3 +23,7 @@ jobs:
       run: |
         cd ${{ env.CAMINHO_PROJETO_WEBAPP }}
         docker build . --file Dockerfile --tag ${{ env.IMAGEM_AZURECR }}:latest
+        
+    - name: Testes da API REST com Newman
+      run: |
+        newman
