@@ -47,7 +47,7 @@ jobs:
         docker tag ${{ env.IMAGEM_AZURECR }}:latest ${{ env.IMAGEM_AZURECR }}:$GITHUB_RUN_NUMBER
         docker push --all-tags ${{ env.IMAGEM_AZURECR }}
 
-  deployment-aks:
+  deployment-azwebapp:
     needs: [build-tests-push]
     
     runs-on: ubuntu-latest
