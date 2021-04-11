@@ -1,0 +1,25 @@
+name: dotnet5-newman-containers-acr-appservice
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  IMAGEM_AZURECR: ${{ secrets.AZURECR_REGISTRY }}/apitemperatura-newman
+  CAMINHO_PROJETO_WEBAPP: ./APITemperatura
+  CAMINHO_TESTES: ./Tests
+
+jobs:
+  build-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build de imagem
+      run: |
+        cd ${{ env.CAMINHO_PROJETO_WEBAPP }}
+        docker build . --file Dockerfile --tag ${{ env.IMAGEM_AZURECR }}:latest
